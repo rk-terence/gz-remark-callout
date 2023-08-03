@@ -1,0 +1,15 @@
+{
+    "compilerOptions": {
+        "baseUrl": "./",
+        "moduleResolution": "node",
+        "outDir": "./dist",
+        "module": "ESNext",
+        "target": "ESNext"
+    },
+    "include": [
+        "**/*.ts"
+    ],
+    "exclude": [
+        "scratch.ts"
+    ]
+}
