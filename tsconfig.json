@@ -9,6 +9,7 @@
         "declaration": true,
     },
     "include": [
+        "example.ts",
         "**/*.ts"
     ],
     "exclude": [

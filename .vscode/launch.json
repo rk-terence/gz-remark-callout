@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Launch TS",
+            "name": "Launch Example",
             "program": "${workspaceFolder}/example.ts",
             "preLaunchTask": "tsc: build - tsconfig.json",
             "outFiles": ["${workspaceFolder}/dist/**/*.js"],

@@ -1,6 +1,6 @@
 {
-  "name": "@gz/remark-callout",
-  "version": "1.0.0",
+  "name": "remark-callout",
+  "version": "0.1.0",
   "description": "",
   "exports": "./dist/index.js",
   "type": "module",
@@ -9,8 +9,11 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "gz",
-  "license": "ISC",
+  "author": "rkzhai7@gmail.com",
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
   "dependencies": {
     "@types/svg-parser": "^2.0.3",
     "hast-util-to-html": "^9.0.0",
