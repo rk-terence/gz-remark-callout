@@ -45,6 +45,7 @@ declare module 'mdast-util-from-markdown' {
 
 declare module 'mdast' {
   interface RootContentMap {
+    element: Element;
     callout: Callout;
     calloutTitle: CalloutTitle;
     calloutContent: CalloutContent;

@@ -25,8 +25,8 @@ import remarkCallout from '@gz/remark-callout';
 const file = unified()
   .use(remarkParse)
   .use(remarkCallout)
-  .use(remarkRehype, {allowDangerousHtml: true})
-  .use(rehypeStringify, { allowDangerousHtml: true })
+  .use(remarkRehype)
+  .use(rehypeStringify)
   .processSync(md);
 console.log("remark:");
 console.log(String(file));

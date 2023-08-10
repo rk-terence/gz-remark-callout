@@ -68,12 +68,12 @@ const mdast = fromMarkdown(md, {
 console.log("mdast:");
 console.log(mdast);
 
-const hast = toHast(mdast, { allowDangerousHtml: true });
+const hast = toHast(mdast);
 console.log("hast:");
 console.log(hast);
 
 console.log("html:")
-const html = toHtml(hast, { allowDangerousHtml: true});
+const html = toHtml(hast);
 console.log(html);
 
 // test remark
@@ -81,8 +81,8 @@ const file = unified()
   .use(remarkParse)
   .use(remarkMath)
   .use(remarkCallout)
-  .use(remarkRehype, {allowDangerousHtml: true})
-  .use(rehypeStringify, { allowDangerousHtml: true })
+  .use(remarkRehype)
+  .use(rehypeStringify)
   .processSync(md);
 console.log("remark:");
 console.log(String(file));

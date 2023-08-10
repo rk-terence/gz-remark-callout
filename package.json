@@ -12,12 +12,14 @@
   "author": "gz",
   "license": "ISC",
   "dependencies": {
+    "@types/svg-parser": "^2.0.3",
     "hast-util-to-html": "^9.0.0",
     "micromark": "^4.0.0",
     "micromark-factory-space": "^2.0.0",
     "micromark-util-character": "^2.0.1",
     "micromark-util-symbol": "^2.0.0",
-    "micromark-util-types": "^2.0.0"
+    "micromark-util-types": "^2.0.0",
+    "svg-parser": "^2.0.4"
   },
   "devDependencies": {
     "@types/mdast": "^4.0.0",

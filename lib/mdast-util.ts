@@ -7,6 +7,7 @@ import type {
 import type {
   Options,
 } from 'mdast-util-to-markdown';
+import { parse } from 'svg-parser';
 
 import { calloutTypes } from './calloutTypes.js';
 
@@ -26,13 +27,27 @@ export function calloutFromMarkdown(): Extension {
       },
       calloutTitle(this: CompileContext, token: Token) {
         const meta = calloutTypes[calloutTypeText];
+        const svgHast = parse(meta.svg);
         const icon: { type: 'html', value: string } = {
           type: 'html',
           value: `<span class="callout-icon" style="color: ${meta.color}">${meta.svg}</span>`
         };
         this.enter({
           type: 'calloutTitle',
-          children: [icon],
+          children: [
+            {
+              type: 'element' as any,
+              value: '',
+              data: {
+                hName: 'span',
+                hProperties: { 
+                  className: ['callout-icon'], 
+                  style: `color: ${meta.color}` 
+                },
+                hChildren: svgHast.children as any
+              }
+            }
+          ],
           data: {
             hName: 'div',
             hProperties: { 
