@@ -1,11 +1,5 @@
-/* 
- * To run this file, you will need tsnode or tsm.
- * Also note that tsm will not respect tsconfig.json's configured paths,
- * so relative imports are needed.
- */
 import { micromark, preprocess, parse, postprocess, compile } from 'micromark';
 import { math, mathHtml } from 'micromark-extension-math';
-import { callout } from './lib/micromark-syntax';
 
 const md = `
 # Hello! $$ a^2 $$ <strong>abc</strong>
