@@ -12,6 +12,7 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkMath from 'remark-math';
 import remarkRehype from 'remark-rehype';
+import remarkObsidianCallout from 'remark-obsidian-callout';
 
 import { callout } from './lib/micromark-syntax.js';
 import { calloutHtml } from './lib/micromark-html.js';
@@ -38,6 +39,11 @@ const rehypeStringify: Plugin = function (config) {
 
 const md = `
 # A title
+
+First we try ordinary callouts
+
+> [!note] This is my title.
+> content.
 
 > [!note] This is my title with code: \`a = b\`
 > content.
@@ -115,3 +121,14 @@ const file = unified()
   .processSync(md);
 console.log("remark:");
 console.log(String(file));
+
+// test remark-obsidian-callout
+// const file_ = unified()
+//   .use(remarkParse)
+//   .use(remarkMath)
+//   .use(remarkObsidianCallout)
+//   .use(remarkRehype, { allowDangerousHtml: true })
+//   .use(rehypeStringify, { allowDangerousHtml: true })
+//   .processSync(md);
+// console.log("remark-obsidian-callout:");
+// console.log(String(file_));
