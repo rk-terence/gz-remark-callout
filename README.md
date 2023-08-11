@@ -22,7 +22,7 @@ import remarkParse from 'remark-parse';
 import remarkRehype from 'remark-rehype';
 import rehypeStringify from 'rehype-stringify';
 
-import remarkCallout from '@gz/remark-callout';
+import remarkCallout from 'remark-callout';
 
 const file = unified()
   .use(remarkParse)
@@ -84,7 +84,7 @@ But inside Obsidian, callouts' titles are parsed as a "flow" element,
 and as a result it supports including *heading*, *code segments*, *math*, etc.
 in the callout title:
 ```markdown
-> [!note] ## The *Euler* formula: $ e^{i \pi} + 1 = 0 $
+> [!note] ##### The *Euler* formula: $ e^{i \pi} + 1 = 0 $
 > As we know, the Euler formula is ...
 ```
 The above markdown segment will be rendered as
