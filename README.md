@@ -88,7 +88,7 @@ in the callout title:
 > As we know, the Euler formula is ...
 ```
 The above markdown segment will be rendered as
-<img width="696" alt="image" src="https://github.com/rk-terence/gz-remark-callout/assets/28799257/7dbfd1e4-392a-4259-8e72-5fd25e2ef537">
+![obsidian-callout-example](./img/obsidian-callout-example.png)
 which makes callouts more powerful and useful.
 
 The plugins `@portaljs/remark-callouts` and `remark-obsidian-callouts` are actually 
