@@ -15,7 +15,18 @@ Issues and pull requests are welcomed!
 
 # Usage
 
-Example:
+## Installation
+You can install this package via npm or pnpm.
+```bash
+# install using npm
+npm install remark-callout
+
+# install using pnpm
+pnpm install remark-callout
+```
+
+## Usage example
+
 ```ts
 import { unified } from 'unified';
 import remarkParse from 'remark-parse';
@@ -59,7 +70,7 @@ the generated HTML would be like
 </blockquote>
 ```
 
-## Usage in Astro
+### Usage in Astro
 
 As this is a remark plugin, you can easily add this into your Astro project.
 Just add this plugin into `astro.config.mjs` file, inside the `remarkPlugins` property.
