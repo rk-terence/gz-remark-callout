@@ -1,16 +1,17 @@
-**This plugin is being developed.**
+This is a remark plugin that adds [Obsidian](https://obsidian.md)-like [callout syntax](https://help.obsidian.md/Editing+and+formatting/Callouts).
 
-# To do list
-
-- [ ] tomarkdown extension of callout.
-- [ ] write a css file to import.
-- [ ] Collapsible callouts?
-
-This is a remark plugin that adds obsidian-like callout syntax.
 Note that this is *not* a transformer plugin. Instead,
-under the hood it adds syntax extensions to micromark, which is the markdown parser used in remark-parse.
+under the hood it adds syntax extensions to 
+[`micromark`](https://github.com/micromark/micromark), 
+which is the markdown parser used in 
+[`remark`](https://github.com/remarkjs/remark/tree/main).
 
-Issues and pull requests are welcomed.
+Issues and pull requests are welcomed!
+
+# Features
+
+- Support nested callouts.
+- Support *flow* elements (such as block math, heading, etc.) inside callout title
 
 # Usage
 
@@ -31,6 +32,31 @@ const file = unified()
   .processSync(md);
 console.log("remark:");
 console.log(String(file));
+```
+
+For example, if we have a markdown string
+```markdown
+> [!note] This is my title with code: \`a = b\`
+> content.
+> 
+> Another paragraph.
+```
+the generated HTML would be like
+```html
+<blockquote class="callout">
+  <div class="callout-title note">
+    <span class="callout-icon" style="color: #448aff">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-pencil"><line x1="18" y1="2" x2="22" y2="6"></line><path d="M7.5 20.5 19 9l-4-4L3.5 16.5 2 22z"></path></svg>
+    </span>
+    <p>This is my title with code: 
+      <code>a = b</code>
+    </p>
+  </div>
+  <div class="callout-content">
+    <p>content.</p>
+    <p>Another paragraph.</p>
+  </div>
+</blockquote>
 ```
 
 ## Usage in Astro
@@ -68,6 +94,12 @@ which makes callouts more powerful and useful.
 The plugins `@portaljs/remark-callouts` and `remark-obsidian-callouts` are actually 
 [transformers](https://github.com/unifiedjs/unified#function-transformertree-file-next). 
 In comparison, this plugin provides *syntax*, *html*, and *mdast util* extensions to let remark support callouts.
+
+# To do list
+
+- [ ] tomarkdown extension of callout.
+- [ ] write a css file to import.
+- [ ] Collapsible callouts?
 
 # License
 

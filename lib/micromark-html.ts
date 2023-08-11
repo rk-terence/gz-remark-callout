@@ -1,7 +1,7 @@
 /*
  * HTML extension for micromark.
  */
-import {
+import type {
   HtmlExtension,
   Token,
   CompileContext
