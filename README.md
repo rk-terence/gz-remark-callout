@@ -47,7 +47,7 @@ console.log(String(file));
 
 For example, if we have a markdown string
 ```markdown
-> [!note] This is my title with code: \`a = b\`
+> [!note] This is my title with code: `a = b`
 > content.
 > 
 > Another paragraph.
