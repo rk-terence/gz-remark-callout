@@ -1,14 +1,19 @@
 {
   "name": "remark-callout",
-  "version": "0.1.0",
-  "description": "",
-  "exports": "./dist/index.js",
+  "version": "0.1.1",
+  "description": "A remark plugin to support obsidian-like callouts in markdown.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
   "type": "module",
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [],
+  "keywords": ["remark-plugin", "remark", "callout", "markdown", "obsidian"],
   "author": "rkzhai7@gmail.com",
   "license": "MIT",
   "files": [
