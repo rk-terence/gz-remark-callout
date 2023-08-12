@@ -12,7 +12,6 @@ import { unified } from 'unified';
 import remarkParse from 'remark-parse';
 import remarkMath from 'remark-math';
 import remarkRehype from 'remark-rehype';
-import remarkObsidianCallout from 'remark-obsidian-callout';
 
 import { callout } from './lib/micromark-syntax.js';
 import { calloutHtml } from './lib/micromark-html.js';
@@ -145,3 +144,15 @@ const file = unified()
   .processSync(md);
 console.log("remark:");
 console.log(String(file));
+
+// remark alone
+// remark itself alone is:
+// md =============> mdast ============> md
+//     fromMarkdown         toMarkdown
+console.log("remark alone:");
+console.log(String(
+  remark()
+    .use(remarkMath)
+    .use(remarkCallout)
+    .processSync(md))
+);
