@@ -77,7 +77,7 @@ Just add this plugin into `astro.config.mjs` file, inside the `remarkPlugins` pr
 
 # Why this one?
 
-There is some existing remark plugins for Obsidian-like callouts, including
+There are some existing remark plugins for Obsidian-like callouts, including
 [`@portaljs/remark-callouts`](https://www.npmjs.com/package/@portaljs/remark-callouts),
 [`remark-callouts`](https://www.npmjs.com/package/remark-callouts), and
 [`remark-obsidian-callout`](https://www.npmjs.com/package/remark-obsidian-callout).
@@ -95,7 +95,7 @@ But inside Obsidian, callouts' titles are parsed as a "flow" element,
 and as a result it supports including *heading*, *code segments*, *math*, etc.
 in the callout title:
 ```markdown
-> [!note] ##### The *Euler* formula: $ e^{i \pi} + 1 = 0 $
+> [!note] ##### The *Euler* formula: $e^{i \pi} + 1 = 0$
 > As we know, the Euler formula is ...
 ```
 The above markdown segment will be rendered as
@@ -106,11 +106,11 @@ The plugins `@portaljs/remark-callouts` and `remark-obsidian-callouts` are actua
 [transformers](https://github.com/unifiedjs/unified#function-transformertree-file-next). 
 In comparison, this plugin provides *syntax*, *html*, and *mdast util* extensions to let remark support callouts.
 
+This plugin, in contrast, supports *flow* elements inside a callout title.
+
 # To do list
 
-- [ ] tomarkdown extension of callout.
-- [ ] write a css file to import.
-- [ ] Collapsible callouts?
+- [ ] Maybe ollapsible callouts?
 
 # License
 

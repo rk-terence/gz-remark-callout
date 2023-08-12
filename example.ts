@@ -17,7 +17,8 @@ import remarkObsidianCallout from 'remark-obsidian-callout';
 import { callout } from './lib/micromark-syntax.js';
 import { calloutHtml } from './lib/micromark-html.js';
 import { 
-  calloutFromMarkdown
+  calloutFromMarkdown,
+  calloutToMarkdown
 } from './lib/mdast-util.js';
 import remarkCallout from './index.js';
 
@@ -38,7 +39,20 @@ const rehypeStringify: Plugin = function (config) {
 }
 
 const md = `
-# A title
+# Try blockquotes
+
+Normal blockquote should not be affected.
+
+> This is a blockquote.
+
+> This is a nested blockquote
+> 
+> > I am the nested one.
+> > > I nest further!
+> > > 
+> > > Haha.
+
+# Try callouts
 
 First we try ordinary callouts
 
@@ -64,7 +78,9 @@ OK! Next we will try nested callouts.
 No more callouts.
 `;
 
-// Test micromark
+/**
+ * Test Micromark.
+ */
 const options = {
   extensions: [math(), callout()], 
   htmlExtensions: [mathHtml(), calloutHtml()],
@@ -88,7 +104,10 @@ console.log("Compiled:");
 console.log(compiled);
 
 
-// test fromMarkdown
+/**
+ * Test fromMarkdown utility.
+ * fromMarkdown: markdown => mdast
+ */
 const mdast = fromMarkdown(md, {
   extensions: [callout(), math()],
   mdastExtensions: [calloutFromMarkdown(), mathFromMarkdown()],
@@ -104,14 +123,19 @@ console.log("html:")
 const html = toHtml(hast);
 console.log(html);
 
-// test toMarkdown
-// const md_ = toMarkdown(mdast, {
-//     extensions: [calloutToMarkdown, mathToMarkdown],
-// });
-// console.log("toMarkdown:");
-// console.log(md_);
+/**
+ * Test toMarkdown utility.
+ * mdast => markdown
+ */
+const md_ = toMarkdown(mdast, {
+    extensions: [calloutToMarkdown(), mathToMarkdown()],
+});
+console.log("toMarkdown:");
+console.log(md_);
 
-// test remark
+/**
+ * Test usage in unified / remark ecosystem.
+ */
 const file = unified()
   .use(remarkParse)
   .use(remarkMath)
@@ -121,14 +145,3 @@ const file = unified()
   .processSync(md);
 console.log("remark:");
 console.log(String(file));
-
-// test remark-obsidian-callout
-// const file_ = unified()
-//   .use(remarkParse)
-//   .use(remarkMath)
-//   .use(remarkObsidianCallout)
-//   .use(remarkRehype, { allowDangerousHtml: true })
-//   .use(rehypeStringify, { allowDangerousHtml: true })
-//   .processSync(md);
-// console.log("remark-obsidian-callout:");
-// console.log(String(file_));

@@ -1,6 +1,6 @@
 {
   "name": "remark-callout",
-  "version": "0.2.4",
+  "version": "1.0.0",
   "description": "A remark plugin to support obsidian-like callouts in markdown.",
   "exports": {
     ".": {
@@ -47,6 +47,7 @@
     "mdast": "^3.0.0",
     "mdast-util-from-markdown": "^2.0.0",
     "mdast-util-math": "^3.0.0",
+    "mdast-util-phrasing": "^4.0.0",
     "mdast-util-to-hast": "^13.0.1",
     "mdast-util-to-markdown": "^2.1.0",
     "micromark": "^4.0.0",
@@ -56,12 +57,12 @@
     "rehype-stringify": "^9.0.3",
     "remark": "^14.0.3",
     "remark-math": "^5.1.1",
-    "remark-obsidian-callout": "^1.1.3",
     "remark-parse": "^10.0.2",
     "remark-rehype": "^10.1.0",
     "remark-stringify": "^10.0.3",
     "tsm": "^2.3.0",
     "typescript": "^5.1.6",
-    "unified": "^10.1.2"
+    "unified": "^10.1.2",
+    "unist-util-is": "^6.0.0"
   }
 }

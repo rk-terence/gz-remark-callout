@@ -21,6 +21,7 @@ declare module 'micromark-util-types' {
   }
 
   interface ContainerState {
+    calloutOpen?: boolean;
     calloutContentStarted?: boolean;
   }
 }
@@ -40,6 +41,14 @@ export interface CalloutTitle extends Parent {
 declare module 'mdast-util-from-markdown' {
   interface CompileData {
     calloutTypeText?: string;
+  }
+}
+
+declare module 'mdast-util-to-markdown' {
+  interface ConstructNameMap {
+    callout: 'callout',
+    calloutTitle: 'calloutTitle',
+    calloutContent: 'calloutContent';
   }
 }
 

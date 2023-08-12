@@ -10,7 +10,8 @@ import type {
   Info
 } from 'mdast-util-to-markdown';
 import type {
-  Parents
+  Parents,
+  Paragraph
 } from 'mdast';
 import { parse } from 'svg-parser';
 
@@ -38,10 +39,6 @@ export function calloutFromMarkdown(): Extension {
       calloutTitle(this: CompileContext, token: Token) {
         const meta = calloutTypes[calloutTypeText];
         const svgHast = parse(meta.svg);
-        const icon: { type: 'html', value: string } = {
-          type: 'html',
-          value: `<span class="callout-icon" style="color: ${meta.color}">${meta.svg}</span>`
-        };
         this.enter({
           type: 'calloutTitle',
           children: [
@@ -95,36 +92,46 @@ export function calloutFromMarkdown(): Extension {
   }
 }
 
-// export function calloutToMarkdown(): Options {
-//   return {
-//     handlers: {
-//       callout(node: Callout, parent: Parents, state: State, info: Info) {
-//         return state.containerFlow(node, info);
-//       },
-//       calloutTitle(node: Callout, parent: Parents, state: State, info: Info) {
-//         const type = node.data.hProperties.className[1];
-//         const value = state.containerFlow(node.children[1], info);
-//         return `[!${type}] ${value}`;
-//       },
-//       calloutContent(node: Callout, parent: Parents, state: State, info: Info) {
-//         const tracker = state.createTracker(info);
-//         tracker.move('> ');
-//         tracker.shift(2);
-//         const value = state.indentLines(
-//           state.containerFlow(node, info),
-//           (line, _, blank) => '>' + (blank ? '' : ' ') + line
-//         )
-//         return value;
-//       }
-//     },
-//     join: [
-//       function (_, __, parent) {
-//         // Do not add blank lines between children.
-//         return -1;
-//       }
-//     ]
-//   }
-// }
+export function calloutToMarkdown(): Options {
+  return {
+    handlers: {
+      callout(node: Callout, parent: Parents, state: State, info: Info) {
+        const exit = state.enter('callout');
+        const tracker = state.createTracker(info);
+        tracker.move('> ');
+        tracker.shift(2);
+        const value = state.indentLines(
+          state.containerFlow(node, tracker.current()),
+          (line, _, blank) => '>' + (blank ? '': ' ') + line
+        );
+        exit()
+        return value;
+      },
+      calloutTitle(node: Callout, parent: Parents, state: State, info: Info) {
+        // Get the type of this callout.
+        const type = node.data.hProperties.className[1];
+        const typeString = `[!${type}]`;
+        const titleString = state.containerPhrasing(
+          // We know that the second children of calloutTitle
+          // is a paragraph node by construction of this mdast.
+          node.children[1] as Paragraph, 
+          info
+        );
+        const value = typeString + (titleString ? ' ' : '') + titleString;
+        return value;
+      },
+      calloutContent(
+        node: Callout, 
+        parent: Parents, 
+        state: State, 
+        info: Info
+      ) {
+        const value = state.containerFlow(node, info)
+        return value;
+      }
+    }
+  }
+}
 
 function determineCalloutType(type: string) {
   if (type in calloutTypes) {

@@ -41,10 +41,10 @@ function tokenizeCalloutStart (
   function start (code: Code): State {
     if (code === 62) {
       const state = self.containerState;
-      if (!state.open) {
-        effects.enter('callout', { _container: true });
-      }
-      state.open = true;
+      // Do not use blockquote's "open", use customized "calloutOpen".
+      // Otherwise, blockquotes will be affected.
+      effects.enter('callout', { _container: true });
+      state.calloutOpen = true;
 
       effects.enter('calloutPrefix');
       effects.enter('calloutGreaterThanMark');
