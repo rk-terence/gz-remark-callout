@@ -11,7 +11,13 @@ Issues and pull requests are welcomed!
 # Features
 
 - Support nested callouts.
-- Support markdown formatted elements (such as block math, heading, etc.) inside callout title
+
+- Support *arbitrary* markdown formatted text elements inside your callout titles, for example, *math*:
+
+  ```markdown
+  > [!note] Change $\alpha_k$ adaptively
+  > One way to increase the performance of our model is to let the optimizer change $\alpha_k$ adaptively.
+  ```
 
 # Usage
 

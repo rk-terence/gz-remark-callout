@@ -37,8 +37,16 @@ export function calloutFromMarkdown(): Extension {
         }, token);
       },
       calloutTitle(this: CompileContext, token: Token) {
+        // Inside calloutTitle, we will know current calloutTypeText, 
+        // as calloutTypeText token is after calloutTitle.
         const meta = calloutTypes[calloutTypeText];
         const svgHast = parse(meta.svg);
+
+        // modify the callout node to add a className.
+        const callout = this.stack[this.stack.length - 1];
+        (callout.data.hProperties.className as string[])
+          .push(calloutTypeText);
+
         this.enter({
           type: 'calloutTitle',
           children: [
@@ -61,6 +69,8 @@ export function calloutFromMarkdown(): Extension {
             } 
           }
         }, token);
+
+        calloutTypeText = undefined;
       },
       calloutContent(this: CompileContext, token: Token) {
         this.enter({
@@ -83,7 +93,6 @@ export function calloutFromMarkdown(): Extension {
       },
       calloutTitle(this: CompileContext, token: Token) {
         this.exit(token);
-        calloutTypeText = undefined;
       },
       calloutContent(this: CompileContext, token: Token) {
         this.exit(token);
