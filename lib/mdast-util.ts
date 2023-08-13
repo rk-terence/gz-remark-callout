@@ -113,7 +113,8 @@ export function calloutToMarkdown(): Options {
         const typeString = `[!${type}]`;
         const titleString = state.containerPhrasing(
           // We know that the second children of calloutTitle
-          // is a paragraph node by construction of this mdast.
+          // is a flow element node by construction of this mdast,
+          // and which children are phrasing elements.
           node.children[1] as Paragraph, 
           info
         );

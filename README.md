@@ -11,7 +11,7 @@ Issues and pull requests are welcomed!
 # Features
 
 - Support nested callouts.
-- Support *flow* elements (such as block math, heading, etc.) inside callout title
+- Support markdown formatted elements (such as block math, heading, etc.) inside callout title
 
 # Usage
 
@@ -91,7 +91,7 @@ such as
 ```
 And `remark-obsidian-callout` will transform formatted text into plain text that is in the callout title.
 
-But inside Obsidian, callouts' titles are parsed as a "flow" element,
+But inside Obsidian, callouts' titles are parsed as formatted elements,
 and as a result it supports including *heading*, *code segments*, *math*, etc.
 in the callout title:
 ```markdown
@@ -106,7 +106,7 @@ The plugins `@portaljs/remark-callouts` and `remark-obsidian-callouts` are actua
 [transformers](https://github.com/unifiedjs/unified#function-transformertree-file-next). 
 In comparison, this plugin provides *syntax*, *html*, and *mdast util* extensions to let remark support callouts.
 
-This plugin, in contrast, supports *flow* elements inside a callout title.
+This plugin, in contrast, supports formatted elements inside a callout title.
 
 # To do list
 

@@ -51,6 +51,12 @@ Normal blockquote should not be affected.
 > > > 
 > > > Haha.
 
+# Try HTML block
+
+<div>
+  Hello
+</div>
+
 # Try callouts
 
 First we try ordinary callouts
@@ -63,7 +69,10 @@ First we try ordinary callouts
 > 
 > Another paragraph.
 
-> [!warning] # A warning!
+> [!error] $$a=b$$ and custom HTML <div>Hello</div>
+> content.
+
+> [!warning] # A warning! <div>Hello</div>
 > Here is Why:
 > $$
 > a^2 + b^2 = c^2
