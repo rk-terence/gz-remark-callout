@@ -12,12 +12,7 @@ Issues and pull requests are welcomed!
 
 - Support nested callouts.
 
-- Support *arbitrary* markdown formatted text elements inside your callout titles, for example, *math*:
-
-  ```markdown
-  > [!note] Change $\alpha_k$ adaptively
-  > One way to increase the performance of our model is to let the optimizer change $\alpha_k$ adaptively.
-  ```
+- Support markdown formatted elements inside your callout titles, for example, *code*, *emphasis*, *heading*, *math*, etc.
 
 # Usage
 
@@ -31,7 +26,7 @@ npm install remark-callout
 pnpm install remark-callout
 ```
 
-## Usage example
+## API
 
 ```ts
 import { unified } from 'unified';
@@ -47,36 +42,49 @@ const file = unified()
   .use(remarkRehype)
   .use(rehypeStringify)
   .processSync(md);
-console.log("remark:");
 console.log(String(file));
 ```
+## Render Result Examples
 
-For example, if we have a markdown string
 ```markdown
-> [!note] This is my title with code: `a = b`
-> content.
-> 
-> Another paragraph.
+> [!warning] `sudo rm -rf` is *dangerous*!
+> Although this simple command can help you easily remove a folder, this command should be used with extra care.
 ```
-the generated HTML would be like
+
+The generated HTML:
+
 ```html
-<blockquote class="callout">
-  <div class="callout-title note">
-    <span class="callout-icon" style="color: #448aff">
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-pencil"><line x1="18" y1="2" x2="22" y2="6"></line><path d="M7.5 20.5 19 9l-4-4L3.5 16.5 2 22z"></path></svg>
-    </span>
-    <p>This is my title with code: 
-      <code>a = b</code>
+<blockquote class="callout warning">
+  <div class="callout-title warning">
+    <span class="callout-icon" style="color: #ff9100"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-alert-triangle"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>
+    <p>
+      <code>sudo rm -rf</code> 
+      is 
+      <em>dangerous</em>
+      !
     </p>
   </div>
   <div class="callout-content">
-    <p>content.</p>
-    <p>Another paragraph.</p>
+    <p>Although this simple command can help you easily remove a folder, this command should be used with extra care.</p>
   </div>
 </blockquote>
 ```
 
-### Usage in Astro
+After adding some CSS, it could be rendered as follows (you can use your own CSS rules to make it appear better to your taste):
+![callout-example](./img/callout-example.png)
+
+Other elements can also be rendered with the help of other plugins, e.g. *math* with the help of 
+[`remark-math`](https://www.npmjs.com/package/remark-math):
+
+```markdown
+> [!note] Change $\alpha_k$ adaptively
+> One way to increase the performance of our model is to let the optimizer change $\alpha_k$ adaptively.
+```
+
+The render result:
+![callout-example-math](./img/callout-example-math.png)
+
+## Usage in Astro
 
 As this is a remark plugin, you can easily add this into your Astro project.
 Just add this plugin into `astro.config.mjs` file, inside the `remarkPlugins` property.
@@ -104,7 +112,7 @@ in the callout title:
 > [!note] ##### The *Euler* formula: $e^{i \pi} + 1 = 0$
 > As we know, the Euler formula is ...
 ```
-The above markdown segment will be rendered as
+In Obsidian, he above markdown segment will be rendered as
 ![obsidian-callout-example](./img/obsidian-callout-example.png)
 which makes callouts more powerful and useful.
 
@@ -116,7 +124,7 @@ This plugin, in contrast, supports formatted elements inside a callout title.
 
 # To do list
 
-- [ ] Maybe ollapsible callouts?
+- [ ] Maybe Collapsible callouts?
 
 # License
 
