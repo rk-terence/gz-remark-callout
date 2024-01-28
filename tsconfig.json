@@ -1,12 +1,17 @@
 {
     "compilerOptions": {
         "baseUrl": ".",
+        "paths": {
+            "$/*": ["./lib/*"]
+        },
         "moduleResolution": "NodeNext",
         "outDir": "./dist",
         "module": "ESNext",
         "target": "ESNext",
         "sourceMap": true,
         "declaration": true,
+        "strictNullChecks": true,
+        "esModuleInterop": true
     },
     "include": [
         "example.ts",
@@ -14,6 +19,7 @@
     ],
     "exclude": [
         "dist/**/*",
-        "scratch.ts"
+        "scratch.ts",
+        "**/*.test.ts"
     ]
 }
