@@ -1,16 +1,19 @@
 import type { Processor } from 'unified';
 
-import { callout } from './lib/micromark-syntax.js';
+import { callout } from './lib/micromark-syntax';
 import { 
   calloutFromMarkdown,
   calloutToMarkdown
- } from './lib/mdast-util.js';
+} from './lib/mdast-util';
+import { mergeWithDefault, Config } from './lib/config';
 
-export default function remarkCallout (this: Processor) {
+export default function remarkCallout (this: Processor, config: Config = {}) {
   const data = this.data();
 
+  const configFull = mergeWithDefault(config);
+
   add('micromarkExtensions', callout());
-  add('fromMarkdownExtensions', calloutFromMarkdown());
+  add('fromMarkdownExtensions', calloutFromMarkdown(configFull));
   add('toMarkdownExtensions', calloutToMarkdown());
 
   function add(field: string, value: unknown) {

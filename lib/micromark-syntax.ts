@@ -38,9 +38,9 @@ function tokenizeCalloutStart (
   const self = this;
   return start;
   
-  function start (code: Code): State {
+  function start (code: Code): State | undefined {
     if (code === 62) {
-      const state = self.containerState;
+      const state = self.containerState!;
       // Do not use blockquote's "open", use customized "calloutOpen".
       // Otherwise, blockquotes will be affected.
       effects.enter('callout', { _container: true });
@@ -140,7 +140,7 @@ function tokenizeCalloutStart (
       const stream = self.sliceStream(token);
       // eof, because we have finished the title.
       stream.push(null);
-      token._tokenizer.write(stream);
+      token._tokenizer!.write(stream);
 
       effects.exit('calloutTitle');
       return ok(code);
@@ -162,7 +162,7 @@ function tokenizeCalloutContinuation(
 
   function contStart(code: Code) {
     const state = self.containerState;
-    if (!state.calloutContentStarted) {
+    if (!state!.calloutContentStarted) {
       effects.enter('calloutContent');
     }
     if (markdownSpace(code)) {
@@ -170,7 +170,7 @@ function tokenizeCalloutContinuation(
         effects,
         contBefore,
         'linePrefix',
-        self.parser.constructs.disable.null.includes('codeIndented')
+        self.parser!.constructs!.disable!.null!.includes('codeIndented')
           ? undefined
           : 4
       )(code)
@@ -191,7 +191,7 @@ function tokenizeCalloutContinuation(
   }
 
   function contAfter(code: Code) {
-    const state = self.containerState;
+    const state = self.containerState!;
     state.calloutContentStarted = true;
     if (markdownSpace(code)) {
       effects.enter('calloutPrefixWhitespace');
@@ -207,7 +207,7 @@ function tokenizeCalloutContinuation(
 }
 
 function exitCallout (this: TokenizeContext, effects: Effects): undefined {
-  const state = this.containerState;
+  const state = this.containerState!;
   if (state.calloutContentStarted) {
     effects.exit('calloutContent');
   }

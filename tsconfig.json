@@ -1,10 +1,11 @@
 {
     "compilerOptions": {
+        "allowJs": true,
         "baseUrl": ".",
         "paths": {
             "$/*": ["./lib/*"]
         },
-        "moduleResolution": "NodeNext",
+        "moduleResolution": "bundler",
         "outDir": "./dist",
         "module": "ESNext",
         "target": "ESNext",
