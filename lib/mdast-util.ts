@@ -18,8 +18,8 @@ import { parse } from 'svg-parser';
 import type { 
   Callout,
 } from './types.js';
-import { determineCalloutType } from './config';
-import type { ConfigFull } from './config';
+import { determineCalloutType } from './config.js';
+import type { ConfigFull } from './config.js';
 
 export function calloutFromMarkdown(config: ConfigFull): Extension {
   let calloutTypeText: string = "note";

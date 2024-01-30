@@ -5,7 +5,7 @@
         "paths": {
             "$/*": ["./lib/*"]
         },
-        "moduleResolution": "bundler",
+        "moduleResolution": "NodeNext",
         "outDir": "./dist",
         "module": "ESNext",
         "target": "ESNext",

@@ -8,7 +8,7 @@ const config: Config = {
             { useESM: true }
         ]
     },
-    // moduleNameMapper: { "(.+)\\.js": "$1" },
+    moduleNameMapper: { "(.+)\\.js": "$1" },
     extensionsToTreatAsEsm: [".ts"]
 };
 
