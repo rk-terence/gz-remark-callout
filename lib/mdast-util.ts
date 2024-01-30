@@ -17,13 +17,12 @@ import { parse } from 'svg-parser';
 
 import type { 
   Callout,
-  CalloutTitle,
-  CalloutContent
 } from './types.js';
-import { calloutTypes } from './calloutTypes.js';
+import { determineCalloutType } from './config.js';
+import type { ConfigFull } from './config.js';
 
-export function calloutFromMarkdown(): Extension {
-  let calloutTypeText: string;
+export function calloutFromMarkdown(config: ConfigFull): Extension {
+  let calloutTypeText: string = "note";
   return {
     enter: {
       callout(this: CompileContext, token: Token) {
@@ -31,21 +30,20 @@ export function calloutFromMarkdown(): Extension {
           type: 'callout',
           children: [],
           data: { 
-            hName: 'blockquote',
-            hProperties: { className: ['callout'] }
+            hName: config.calloutContainer,
+            hProperties: { className: ['callout', ...config.customClassNames] }
           }
         }, token);
       },
       calloutTitle(this: CompileContext, token: Token) {
-        // Inside calloutTitle, we will know current calloutTypeText, 
-        // as calloutTypeText token is after calloutTitle.
-        const meta = calloutTypes[calloutTypeText];
+        // The default callout type is "note".
+        const meta = config.callouts[calloutTypeText];
         const svgHast = parse(meta.svg);
 
         // modify the callout node to add a className.
         const callout = this.stack[this.stack.length - 1];
-        (callout.data.hProperties.className as string[])
-          .push(calloutTypeText);
+        ((callout.data as any).hProperties.className as string[])
+            .push(calloutTypeText!);
 
         this.enter({
           type: 'calloutTitle',
@@ -56,7 +54,7 @@ export function calloutFromMarkdown(): Extension {
                 hName: 'span',
                 hProperties: { 
                   className: ['callout-icon'], 
-                  style: `color: ${meta.color}` 
+                  style: config.embedDefaultColor ?  `color: ${meta.color}` : undefined,
                 },
                 hChildren: svgHast.children as any
               }
@@ -65,12 +63,12 @@ export function calloutFromMarkdown(): Extension {
           data: {
             hName: 'div',
             hProperties: { 
-              className: ['callout-title', calloutTypeText] 
+              className: ['callout-title', calloutTypeText!] 
             } 
           }
         }, token);
 
-        calloutTypeText = undefined;
+        calloutTypeText = "note";
       },
       calloutContent(this: CompileContext, token: Token) {
         this.enter({
@@ -118,7 +116,7 @@ export function calloutToMarkdown(): Options {
       },
       calloutTitle(node: Callout, parent: Parents, state: State, info: Info) {
         // Get the type of this callout.
-        const type = node.data.hProperties.className[1];
+        const type = (node.data as any).hProperties.className[1] as string;
         const typeString = `[!${type}]`;
         const titleString = state.containerPhrasing(
           // We know that the second children of calloutTitle
@@ -141,14 +139,4 @@ export function calloutToMarkdown(): Options {
       }
     }
   }
-}
-
-function determineCalloutType(type: string) {
-  if (type in calloutTypes) {
-    if (typeof calloutTypes[type] === 'string') {
-      return calloutTypes[type];
-    }
-    return type;
-  }
-  return 'note';
 }

@@ -1,4 +1,5 @@
-This is a remark plugin that adds [Obsidian](https://obsidian.md)-like [callout syntax](https://help.obsidian.md/Editing+and+formatting/Callouts).
+This is a remark plugin that adds [Obsidian](https://obsidian.md)-like
+[callout syntax](https://help.obsidian.md/Editing+and+formatting/Callouts).
 
 Note that this is *not* a transformer plugin. Instead,
 under the hood it adds syntax extensions to 
@@ -26,7 +27,7 @@ npm install remark-callout
 pnpm install remark-callout
 ```
 
-## API
+## Usage
 
 ```ts
 import { unified } from 'unified';
@@ -36,6 +37,11 @@ import rehypeStringify from 'rehype-stringify';
 
 import remarkCallout from 'remark-callout';
 
+const md = `
+> [!warning] \`sudo rm -rf\` is *dangerous*!
+> Although this simple command can help you easily remove a folder, this command should be used with extra care.
+`;
+
 const file = unified()
   .use(remarkParse)
   .use(remarkCallout)
@@ -44,37 +50,153 @@ const file = unified()
   .processSync(md);
 console.log(String(file));
 ```
-## Render Result Examples
 
-```markdown
-> [!warning] `sudo rm -rf` is *dangerous*!
-> Although this simple command can help you easily remove a folder, this command should be used with extra care.
-```
-
-The generated HTML:
+The generated HTML of the above code would be
 
 ```html
 <blockquote class="callout warning">
   <div class="callout-title warning">
-    <span class="callout-icon" style="color: #ff9100"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-alert-triangle"><path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg></span>
+    <span class="callout-icon">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="16"
+        height="16"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide-alert-triangle"
+      >
+        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+      </svg>
+    </span>
     <p>
-      <code>sudo rm -rf</code> 
-      is 
-      <em>dangerous</em>
-      !
+      <code>sudo rm -rf</code> is <em>dangerous</em>!
     </p>
   </div>
   <div class="callout-content">
-    <p>Although this simple command can help you easily remove a folder, this command should be used with extra care.</p>
+    <p>
+      Although this simple command can help you easily remove a folder, this
+      command should be used with extra care.
+    </p>
   </div>
 </blockquote>
 ```
 
-After adding some CSS, it could be rendered as follows (you can use your own CSS rules to make it appear better to your taste):
+Class names are embedded in the generated HTML, 
+so that CSS rules can be used to adjust the style.
+
+### Customization Support
+
+As can be seen from above, by default the `blockquote` element is used to hold the callout;
+also, default icons are chosen for different callout types.
+This can be changed by adding configurations.
+
+You can pass configuration object to `remarkCallout`.
+For example, to change the SVG string for the callout type `warning`
+and change the callout container to `div`, you can change the above code to 
+```ts
+const config = {
+    callouts: {
+        warning: {
+            svg: `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-alarm-clock"><circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M5 3 2 6"/><path d="m22 6-3-3"/><path d="M6.38 18.7 4 21"/><path d="M17.64 18.67 20 21"/></svg>`
+        }
+    },
+    calloutContainer: "div"
+};
+
+const file = unified()
+  .use(remarkParse)
+  .use(remarkCallout, config)
+  .use(remarkRehype)
+  .use(rehypeStringify)
+  .processSync(md);
+console.log(String(file));
+```
+Then, the generated HTML would be changed to
+```html
+<div class="callout warning">
+  <div class="callout-title warning">
+    <span class="callout-icon">
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="24"
+        height="24"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-alarm-clock"
+      >
+        <circle cx="12" cy="13" r="8"></circle>
+        <path d="M12 9v4l2 2"></path>
+        <path d="M5 3 2 6"></path>
+        <path d="m22 6-3-3"></path>
+        <path d="M6.38 18.7 4 21"></path>
+        <path d="M17.64 18.67 20 21"></path>
+      </svg>
+    </span>
+    <p>
+      <code>sudo rm -rf</code> is <em>dangerous</em>!
+    </p>
+  </div>
+  <div class="callout-content">
+    <p>
+      Although this simple command can help you easily remove a folder, this
+      command should be used with extra care.
+    </p>
+  </div>
+</div>
+```
+
+The configuration object is of type:
+```ts
+type SingleCalloutConfig = {
+    svg?: string,
+    // Will be embeded as inline style of the icon. Deprecated.
+    // Only take effect when embedDefaultColor is set to true.
+    // It is considered best to adjust the color using the provided class names
+    // and CSS rules.
+    color?: string
+};
+
+type Config = {
+    callouts?: {
+        note?: SingleCalloutConfig,
+        tip?: SingleCalloutConfig,
+        warning?: SingleCalloutConfig,
+        abstract?: SingleCalloutConfig,
+        info?: SingleCalloutConfig,
+        todo?: SingleCalloutConfig,
+        success?: SingleCalloutConfig,
+        question?: SingleCalloutConfig,
+        danger?: SingleCalloutConfig,
+        bug?: SingleCalloutConfig,
+        example?: SingleCalloutConfig,
+        failure?: SingleCalloutConfig,
+        quote?: SingleCalloutConfig
+    },
+    calloutContainer?: string,  // set the container element type for callouts
+    embedDefaultColor?: boolean,   // defaults to false
+    customClassNames?: string[],  // add more class names to the callout container
+}
+```
+
+For unspecified parts, this package will use the default.
+Please check *lib/config.ts* for `defaultConfig`.
+
+### Example with CSS
+
 ![callout-example](./img/callout-example.png)
 
-Other elements can also be rendered with the help of other plugins, e.g. *math* with the help of 
-[`remark-math`](https://www.npmjs.com/package/remark-math):
+
+Another example:
 
 ```markdown
 > [!note] Change $\alpha_k$ adaptively
@@ -83,6 +205,14 @@ Other elements can also be rendered with the help of other plugins, e.g. *math* 
 
 The render result:
 ![callout-example-math](./img/callout-example-math.png)
+
+Of course, you can adjust the CSS to make it appeal to your taste.
+
+## Configuration
+
+This plugin offers some default behavior, such as the callout icon and callout title.
+
+Some customization can be achieved through configuration.
 
 ## Usage in Astro
 
