@@ -193,6 +193,11 @@ Please check *lib/config.ts* for `defaultConfig`.
 
 ### Example with CSS
 
+![callout-example](./img/callout-example.png)
+
+
+Another example:
+
 ```markdown
 > [!note] Change $\alpha_k$ adaptively
 > One way to increase the performance of our model is to let the optimizer change $\alpha_k$ adaptively.
