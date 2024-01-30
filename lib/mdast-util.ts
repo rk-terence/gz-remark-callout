@@ -30,7 +30,7 @@ export function calloutFromMarkdown(config: ConfigFull): Extension {
           type: 'callout',
           children: [],
           data: { 
-            hName: 'blockquote',
+            hName: config.calloutContainer,
             hProperties: { className: ['callout', ...config.customClassNames] }
           }
         }, token);
