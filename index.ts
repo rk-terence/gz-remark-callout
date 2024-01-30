@@ -5,7 +5,9 @@ import {
   calloutFromMarkdown,
   calloutToMarkdown
 } from './lib/mdast-util';
-import { mergeWithDefault, Config } from './lib/config';
+import { mergeWithDefault } from './lib/config';
+import type { Config } from "./lib/config";
+export type { Config } from "./lib/config";
 
 export default function remarkCallout (this: Processor, config: Config = {}) {
   const data = this.data();
@@ -24,3 +26,4 @@ export default function remarkCallout (this: Processor, config: Config = {}) {
     list.push(value)
   }
 }
+

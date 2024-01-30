@@ -21,6 +21,7 @@
     "exclude": [
         "dist/**/*",
         "scratch.ts",
-        "**/*.test.ts"
+        "**/*.test.ts",
+        "jest.config.ts"
     ]
 }
