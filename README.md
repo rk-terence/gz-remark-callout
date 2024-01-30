@@ -92,13 +92,13 @@ so that CSS rules can be used to adjust the style.
 
 ### Customization Support
 
-As can be seen from above, by default we `blockquote` element to hold the callout;
+As can be seen from above, by default the `blockquote` element is used to hold the callout;
 also, default icons are chosen for different callout types.
 This can be changed by adding configurations.
 
 You can pass configuration object to `remarkCallout`.
-For example, to change the SVG string for the callout type `warning`,
-you can change the above code to 
+For example, to change the SVG string for the callout type `warning`
+and change the callout container to `div`, you can change the above code to 
 ```ts
 const config = {
     callouts: {
